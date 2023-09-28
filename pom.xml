@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.queues.javaapp</groupId>
-  <artifactId>queues-javaapp</artifactId>
+  <artifactId>openapi-javaapp</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
 
