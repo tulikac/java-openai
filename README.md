@@ -14,7 +14,7 @@ The project demonstrate the integration with Azure OpenAI text-davinci-003 model
 - Clone the repo locally
 - Navigate to the cloned directory
 - run "mvn compile" then "mvn package"
-- Running "mnv package" would generate the jar file "openapi-javaapp-1.0.0.jar"
+- Running "mvn package" would generate the jar file "openapi-javaapp-1.0.0.jar" under \target directory
 ## Running jar locally
 - Have these environment variable configured that contains the configuration for the azure open AI, azure storage queue
   #### AZURE_STORAGE_CONNECTION_STRING  
