@@ -17,14 +17,14 @@ The project demonstrate the integration with Azure OpenAI text-davinci-003 model
 - Running "mvn package" would generate the jar file "openapi-javaapp-1.0.0.jar" under \target directory
 ## Running jar locally
 - Have these environment variable configured that contains the configuration for the azure open AI, azure storage queue
-  #### AZURE_STORAGE_CONNECTION_STRING  
-  #### AZURE_STORAGE_SOURCE_QUEUE_NAME
-  #### AZURE_STORAGE_DESTINATION_QUEUE_NAME
-  #### AZURE_OPEN_API_KEY
-  #### AZURE_OPEN_API_ENDPOINT
-  #### AZURE_OPEN_API_MODEL_DEPLOYMENT_NAME
-
-- Run the jar
+  -  AZURE_STORAGE_CONNECTION_STRING
+  -  AZURE_STORAGE_SOURCE_QUEUE_NAME
+  -  AZURE_STORAGE_DESTINATION_QUEUE_NAME
+  -  AZURE_OPEN_API_KEY
+  -  AZURE_OPEN_API_ENDPOINT
+  -  AZURE_OPEN_API_MODEL_DEPLOYMENT_NAME
+- Run the jar usng "java -jar target\queues-javaapp-1.0-0.jar"
+- To see the content of the jar file run "jar -tf target\queues-javaapp-1.0-0.jar" or extract the jar content locally
 
 ## Running As WebJob in Azure
 Currently EastUSEUAP2 has the code deployed that enable running webjobs on Linux. 
