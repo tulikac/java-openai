@@ -28,6 +28,7 @@ The project demonstrate the integration with Azure OpenAI text-davinci-003 model
 
 ## Running As WebJob in Azure
 Currently EastUSEUAP2 has the code deployed that enable running webjobs on Linux. 
- - Create a Java Linux container webapp, please make sure the container, custom or blessed image based have Java 17 + in it and JAVA_HOME environment varialbel configured
+ - Create a Java Linux container webapp, please make sure the container, custom or blessed image based have Java 17 + in it, JAVA_HOME environment varialbel configured, and WEBSITES_ENABLE_APP_SERVICE_STORAGE environment variable set to true
  - Have the above mentioned config environment varialbes configured as app settings
- - Please zip these files "openai-java-webjob-start.sh", "settings.job" and "openapi-javaapp-1.0.0.jar". And deploy the zip file as webjob
+ - Please zip these files "openai-java-webjob-start.sh", "settings.job" and "openapi-javaapp-1.0.0.jar". And deploy the zip file as webjob, either by zip deployment or by calling webjob PUT API, details here https://github.com/projectkudu/kudu/wiki/WebJobs-API
+   
