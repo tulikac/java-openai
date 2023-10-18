@@ -1,5 +1,10 @@
 # OpenAI with Java
 The project demonstrate the integration with Azure OpenAI text-davinci-003 model, Azure Storage Queue using JAVA. The purpose of this repository is to provide a reference point with the Azure OpenAI "text-davinci-003" model POC as an example to build a java webjob or for an independent local run.
+
+## Demo App Architecture
+
+![alternativetext](/demoapp-arch.png)
+
 ## Pre-requisite
 - Azure Open AI service created and text-davinci-003 model deployed
 - Have a Azure Storage source and destination queues created
