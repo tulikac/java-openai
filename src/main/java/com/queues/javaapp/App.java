@@ -2,6 +2,8 @@ package com.queues.javaapp;
 
 import com.azure.storage.queue.*;
 
+//import com.queues.javaapp.AiDocSummarizationProcessor;
+
 /*
     Creating jar file
     Creating a Java jar file using Azure Storage Queue package using maven
@@ -47,8 +49,10 @@ public class App {
                     appSettingConfigs.destinationQueueName);
 
             // OpenAiProcessor for the received prompt
-            OpenAiProcessor openAiProcessor = new OpenAiProcessor(appSettingConfigs.azureOpenAiKey,
-                    appSettingConfigs.openAiEndpoint, appSettingConfigs.aiModelDeploymentName);
+            // OpenAiProcessor openAiProcessor = new OpenAiProcessor(appSettingConfigs.azureOpenAiKey,
+            //         appSettingConfigs.openAiEndpoint, appSettingConfigs.aiModelDeploymentName);
+
+            AiDocSummarizationProcessor aiDocSummarizer = new AiDocSummarizationProcessor();
 
             // Process the received messages through the OpenAI model
             queueClient.receiveMessages(10).forEach(
@@ -58,11 +62,12 @@ public class App {
                         System.out.println("Input: " + input);
 
                         // Process the received input through the AI model
-                        String aiModelOutput = openAiProcessor.processPrompt(input);
-                        System.out.print(aiModelOutput);
+                        //String aiModelOutput = openAiProcessor.processPrompt(input);
+                        String summaryDoc = aiDocSummarizer.processDocument(input);
+                        System.out.print(summaryDoc);
 
                         // Send the aiModelOutput to the destination
-                        queueMessageSender.sendMessage(aiModelOutput);
+                        queueMessageSender.sendMessage(summaryDoc);
 
                         // Let the service know we're finished with
                         // the message and it can be safely deleted.

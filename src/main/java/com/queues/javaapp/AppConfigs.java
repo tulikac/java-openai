@@ -7,4 +7,6 @@ public class AppConfigs {
     public String azureOpenAiKey;
     public String openAiEndpoint;
     public String aiModelDeploymentName;
+    public String languageKey;
+    public String languageEndpoint;
 }

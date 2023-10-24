@@ -32,5 +32,16 @@ public class EnvConfigProvider {
         if (configOpenApiModelDeploymentName != null && configOpenApiModelDeploymentName != "") {
             appSettingConfigs.aiModelDeploymentName = configOpenApiModelDeploymentName;
         }
+
+        
+        String languageKey = System.getenv(Constants.LANGUAGE_KEY);
+        if (languageKey != null && languageKey != "") {
+            appSettingConfigs.languageKey = languageKey;
+        }
+
+        String languageEndpoint = System.getenv(Constants.LANGUAGE_ENDPOINT);
+        if (languageEndpoint != null && languageEndpoint != "") {
+            appSettingConfigs.languageEndpoint = languageEndpoint;
+        }
     }
 }
