@@ -12,9 +12,7 @@ import com.azure.ai.textanalytics.util.*;
 
 
 public class AiDocSummarizationProcessor {
-    //private static String languageKey = System.getenv("LANGUAGE_KEY");
-    //private static String languageEndpoint = System.getenv("LANGUAGE_ENDPOINT");
-    
+
     // Method to authenticate the client object with your key and endpoint
     static TextAnalyticsClient authenticateClient(String key, String endpoint) {
         return new TextAnalyticsClientBuilder()
@@ -23,85 +21,61 @@ public class AiDocSummarizationProcessor {
                 .buildClient();
     }
 
-    ///
-    /// processDocument(String inputDocument)
-    ///
-    public String processDocument(String inputDocument){
-        return summarizationExample(inputDocument);
-    }
-
-    static String summarizationExample(String inputDocument) {
+    public static String processDocument(String inputDocument) {
         AppConfigs appSettingConfigs = new AppConfigs();
- 
-        appSettingConfigs.azureOpenAiKey =  "";
-        appSettingConfigs.openAiEndpoint = "";
-        appSettingConfigs.aiModelDeploymentName =  "";
- 
-        appSettingConfigs.azureStorageConnectionString =  "";
-        appSettingConfigs.sourceQueueName =  "";
-        appSettingConfigs.destinationQueueName =  "";
+
         appSettingConfigs.languageKey = "";
         appSettingConfigs.languageEndpoint = "";
         // Get the config from environment variables
         EnvConfigProvider.ConfigValues(appSettingConfigs);
+
+        //
+        // Authenticate and create client
+        //
         TextAnalyticsClient client = authenticateClient(appSettingConfigs.languageKey, appSettingConfigs.languageEndpoint);
         List<String> documents = new ArrayList<>();
-        // documents.add(
-        //         "The extractive summarization feature uses natural language processing techniques "
-        //         + "to locate key sentences in an unstructured text document. "
-        //         + "These sentences collectively convey the main idea of the document. This feature is provided as an API for developers. "
-        //         + "They can use it to build intelligent solutions based on the relevant information extracted to support various use cases. "
-        //         + "Extractive summarization supports several languages. "
-        //         + "It is based on pretrained multilingual transformer models, part of our quest for holistic representations. "
-        //         + "It draws its strength from transfer learning across monolingual and harness the shared nature of languages "
-        //         + "to produce models of improved quality and efficiency.");
+
         documents.add(inputDocument);
-   
+
+        StringBuilder sb = new StringBuilder();
+
         SyncPoller<AnalyzeActionsOperationDetail, AnalyzeActionsResultPagedIterable> syncPoller =
                 client.beginAnalyzeActions(documents,
                         new TextAnalyticsActions().setDisplayName("{tasks_display_name}")
-                                .setExtractiveSummaryActions(
-                                        new ExtractiveSummaryAction()),
+                                .setAbstractiveSummaryActions(
+                                        new AbstractiveSummaryAction()),
                         "en",
                         new AnalyzeActionsOptions());
-   
         syncPoller.waitForCompletion();
-       
-        StringBuilder sb = new StringBuilder();
         syncPoller.getFinalResult().forEach(actionsResult -> {
-            System.out.println("Extractive Summarization action results:");
-            for (ExtractiveSummaryActionResult actionResult : actionsResult.getExtractiveSummaryResults()) {
+            System.out.println("Abstractive Summarization action results:");
+            for (AbstractiveSummaryActionResult actionResult : actionsResult.getAbstractiveSummaryResults()) {
                 if (!actionResult.isError()) {
-                    for (ExtractiveSummaryResult documentResult : actionResult.getDocumentsResults()) {
+                    for (AbstractiveSummaryResult documentResult : actionResult.getDocumentsResults()) {
                         if (!documentResult.isError()) {
-                            System.out.println("\tExtracted summary sentences:");
-                            for (ExtractiveSummarySentence summarySentence : documentResult.getSentences()) {
-                                sb.append(
-                                String.format("\t\t Sentence text: %s, length: %d, offset: %d, rank score: %f.%n\r\n",
-                                    summarySentence.getText(), summarySentence.getLength(),
-                                    summarySentence.getOffset(), summarySentence.getRankScore()));
-                                System.out.printf(
-                                        "\t\t Sentence text: %s, length: %d, offset: %d, rank score: %f.%n",
-                                        summarySentence.getText(), summarySentence.getLength(),
-                                        summarySentence.getOffset(), summarySentence.getRankScore());
+                            System.out.println("\tSummary:");
+                            for (AbstractiveSummary summary : documentResult.getSummaries()) {
+                                sb.append(String.format("Summary:\r\n%s\r\n", summary.getText()));
+                                System.out.printf("\t\tSummary:\r\n%s\r\n", summary.getText());
                             }
                         } else {
                             sb.append( String.format(
-                                "\tCannot extract summary sentences. Error: %s%n",
+                                "\tCannot extract summary. Error: %s%n",
                                 documentResult.getError().getMessage()));
-                            System.out.printf("\tCannot extract summary sentences. Error: %s%n",
+                            System.out.printf("\tCannot extract summary. Error: %s%n",
                                     documentResult.getError().getMessage());
                         }
                     }
                 } else {
-                    sb.append( String.format(
-                                       "\tCannot execute Extractive Summarization action. Error: %s%n",
+                    sb.append( String.format( 
+                                       "\tCannot execute Abstractive Summarization action. Error: %s%n",
                                        actionResult.getError().getMessage()));
-                    System.out.printf("\tCannot execute Extractive Summarization action. Error: %s%n",
+                    System.out.printf("\tCannot execute Abstractive Summarization action. Error: %s%n",
                             actionResult.getError().getMessage());
                 }
             }
         });
+        
         return sb.toString();
     }
 }

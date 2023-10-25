@@ -48,11 +48,7 @@ public class App {
                     appSettingConfigs.azureStorageConnectionString,
                     appSettingConfigs.destinationQueueName);
 
-            // OpenAiProcessor for the received prompt
-            // OpenAiProcessor openAiProcessor = new OpenAiProcessor(appSettingConfigs.azureOpenAiKey,
-            //         appSettingConfigs.openAiEndpoint, appSettingConfigs.aiModelDeploymentName);
-
-            AiDocSummarizationProcessor aiDocSummarizer = new AiDocSummarizationProcessor();
+            //AiDocSummarizationProcessor aiDocSummarizer = new AiDocSummarizationProcessor();
 
             // Process the received messages through the OpenAI model
             queueClient.receiveMessages(10).forEach(
@@ -63,8 +59,8 @@ public class App {
 
                         // Process the received input through the AI model
                         //String aiModelOutput = openAiProcessor.processPrompt(input);
-                        String summaryDoc = aiDocSummarizer.processDocument(input);
-                        System.out.print(summaryDoc);
+                        String summaryDoc = AiDocSummarizationProcessor.processDocument(input);
+                        System.out.println("Output: " + summaryDoc);
 
                         // Send the aiModelOutput to the destination
                         queueMessageSender.sendMessage(summaryDoc);
